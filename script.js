@@ -36,16 +36,6 @@ const replaceAll = () => {
     } else {
       // If it's an element
       switch (walker.currentNode.tagName) {
-        case "INPUT":
-          if (walker.currentNode.type === "text") {
-            replacementsForText.forEach(([oldText, newText]) => {
-              walker.currentNode.value = walker.currentNode.value.replace(
-                oldText,
-                newText
-              )
-            })
-          }
-          break
         case "IMG":
           if (walker.currentNode.alt === "Kimetsu no Yaiba logo.svg") {
             walker.currentNode.src =
