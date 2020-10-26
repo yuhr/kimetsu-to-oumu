@@ -3081,6 +3081,11 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
+"prettier@npm:@yuhr/prettier@2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@yuhr/prettier/-/prettier-2.1.1.tgz#cd606e1d8568f2510dc0e71f15ea2fb66a856721"
+  integrity sha512-5ur110KbnfIOqi+0VCc/k77MshAecNjAW/587+i7LjOkbqblB7LvA4K3myXm5DAkaDmR62Q8XD2u1VdXjbiF0A==
+
 probe-image-size@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-5.0.0.tgz#1b87d20340ab8fcdb4324ec77fbc8a5f53419878"
