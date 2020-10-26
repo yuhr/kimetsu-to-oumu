@@ -8,13 +8,17 @@ const replacementsForText = [
   [/無限列車/g, "最終解脱"]
 ]
 
-const checkTreeElementsUpward = (checker, originalNode) => {
-  if (originalNode.parentNode) {
-    if (originalNode.parentNode.nodeType === Node.ELEMENT_NODE) {
-      if (checker(originalNode.parentNode)) {
-        return true
+const checkIsNodeInsideContenteditable = (node) => {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === Node.ELEMENT_NODE) {
+      if (
+        node.parentNode.closest(
+          '[contenteditable=""], [contenteditable="true"]'
+        ) === null
+      ) {
+        return false
       } else {
-        return checkTreeElementsUpward(checker, originalNode.parentNode)
+        return true
       }
     } else {
       return false
@@ -22,23 +26,6 @@ const checkTreeElementsUpward = (checker, originalNode) => {
   } else {
     return false
   }
-}
-
-const checkIsElementContenteditable = (element) => {
-  if (element.hasAttribute("contenteditable")) {
-    const contenteditable = element.getAttribute("contenteditable")
-    if (contenteditable === "" || contenteditable === "true") {
-      return true
-    } else {
-      return false
-    }
-  } else {
-    return false
-  }
-}
-
-const checkIsNodeInsideContenteditable = (node) => {
-  return checkTreeElementsUpward(checkIsElementContenteditable, node)
 }
 
 const replace = (target, replacements) => {
@@ -96,6 +83,5 @@ convertKimetsuToOumu()
 const observer = new MutationObserver(convertKimetsuToOumu)
 observer.observe(document.body, {
   childList: true,
-  subtree: true,
-  characterData: true
+  subtree: true
 })
