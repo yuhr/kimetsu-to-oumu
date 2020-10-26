@@ -20,8 +20,8 @@
 
 ### Google検索
 
-![](screenshot-google.png)
+![](screenshots/google.png)
 
 ### Wikipedia
 
-![](screenshot-wikipedia.png)
+![](screenshots/wikipedia.png)
