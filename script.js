@@ -7,9 +7,10 @@ const replacementsForText = [
   [/おにめつ|きめつ/g, "おうむ"],
   [/無限列車/g, "最終解脱"],
   [/竈門/g, "麻原"],
-  [/炭[治次]郎/g, "彰晃"],
+  [/炭[治次二]郎/g, "彰晃"],
   [/かまど/g, "あさはら"],
-  [/たんじろう?/g, "しょうこう"]
+  [/たんじろう?/g, "しょうこう"],
+  [/kimetsu/g, "oumu"]
 ]
 
 const checkIsNodeInsideContenteditable = (node) => {
