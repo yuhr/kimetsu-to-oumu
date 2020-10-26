@@ -83,13 +83,38 @@ const convertKimetsuToOumu = (muts) => {
       // For per-character elements
       if (walker.currentNode.textContent.length === 1) {
         buffer.push(walker.currentNode)
-      } else {
+      } else if (buffer.length !== 0) {
         const concat = buffer.reduce(
           (prev, curr) => prev + curr.textContent,
           ""
         )
         const replaced = replace(concat, replacementsForText)
         if (concat !== replaced) {
+          console.log(concat, replaced)
+          if (concat.length === replaced.length) {
+            buffer.forEach((node, i) => (node.textContent = replaced[i]))
+          } else if (concat.length < replaced.length) {
+            replaced.split("").forEach((c, i) => {
+              if (buffer[i]) buffer[i].textContent = c
+              else {
+                const cloned = buffer[buffer.length - 1].cloneNode(false)
+                cloned.textContent = c
+                buffer[buffer.length - 1].parentNode.insertBefore(
+                  cloned,
+                  buffer[buffer.length - 1].nextSibling
+                )
+                buffer.push(cloned)
+              }
+            })
+          } else if (concat.length > replaced.length) {
+            concat.split("").forEach((_, i) => {
+              const c = replaced[i]
+              if (c !== undefined) buffer[i].textContent = c
+              else {
+                buffer[i].remove()
+              }
+            })
+          }
         }
         buffer = []
       }
