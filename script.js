@@ -8,6 +8,39 @@ const replacementsForText = [
   [/無限列車/g, "最終解脱"]
 ]
 
+const checkTreeElementsUpward = (checker, originalNode) => {
+  if (originalNode.parentNode) {
+    if (originalNode.parentNode.nodeType === Node.ELEMENT_NODE) {
+      if (checker(originalNode.parentNode)) {
+        return true
+      } else {
+        return checkTreeElementsUpward(checker, originalNode.parentNode)
+      }
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+}
+
+const checkIsElementContenteditable = (element) => {
+  if (element.hasAttribute("contenteditable")) {
+    const contenteditable = element.getAttribute("contenteditable")
+    if (contenteditable === "" || contenteditable === "true") {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+}
+
+const checkIsNodeInsideContenteditable = (node) => {
+  return checkTreeElementsUpward(checkIsElementContenteditable, node)
+}
+
 const replaceAll = () => {
   // For title
   replacementsForText.forEach(([oldText, newText]) => {
@@ -25,16 +58,20 @@ const replaceAll = () => {
   while (walker.nextNode()) {
     if (walker.currentNode.nodeValue) {
       // If it's a text node
-      if (walker.currentNode.nodeValue.trim()) {
-        replacementsForText.forEach(([oldText, newText]) => {
-          walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(
-            oldText,
-            newText
-          )
-        })
+
+      if (!checkIsNodeInsideContenteditable(walker.currentNode)) {
+        if (walker.currentNode.nodeValue.trim()) {
+          replacementsForText.forEach(([oldText, newText]) => {
+            walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(
+              oldText,
+              newText
+            )
+          })
+        }
       }
     } else {
       // If it's an element
+
       switch (walker.currentNode.tagName) {
         case "IMG":
           if (walker.currentNode.alt === "Kimetsu no Yaiba logo.svg") {
