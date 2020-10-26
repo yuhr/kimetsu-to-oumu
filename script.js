@@ -5,7 +5,11 @@ const replacementsForText = [
   [/鬼滅/g, "オウム"],
   [/(?<=(?:きめつ|鬼滅))のやいば/g, "しんりきょう"],
   [/きめつ/g, "オウム"],
-  [/無限列車/g, "最終解脱"]
+  [/無限列車/g, "最終解脱"],
+  [/竈門/g, "麻原"],
+  [/炭治郎/g, "彰晃"],
+  [/かまど/g, "あさはら"],
+  [/たんじろう?/g, "しょうこう"]
 ]
 
 const checkIsNodeInsideContenteditable = (node) => {
@@ -39,6 +43,8 @@ const convertKimetsuToOumu = (muts) => {
   // For title
   document.title = replace(document.title, replacementsForText)
 
+  let buffer = []
+
   // For document body
   const walker = document.createTreeWalker(
     document.body,
@@ -46,7 +52,6 @@ const convertKimetsuToOumu = (muts) => {
     null,
     false
   )
-
   while (walker.nextNode()) {
     if (walker.currentNode.nodeValue) {
       // If it's a text node
@@ -62,6 +67,7 @@ const convertKimetsuToOumu = (muts) => {
     } else {
       // If it's an element
 
+      // Tag specific replacements
       switch (walker.currentNode.tagName) {
         case "IMG":
           if (walker.currentNode.alt === "Kimetsu no Yaiba logo.svg") {
@@ -72,6 +78,20 @@ const convertKimetsuToOumu = (muts) => {
             walker.currentNode.height = "140"
           }
           break
+      }
+
+      // For per-character elements
+      if (walker.currentNode.textContent.length === 1) {
+        buffer.push(walker.currentNode)
+      } else {
+        const concat = buffer.reduce(
+          (prev, curr) => prev + curr.textContent,
+          ""
+        )
+        const replaced = replace(concat, replacementsForText)
+        if (concat !== replaced) {
+        }
+        buffer = []
       }
     }
   }
