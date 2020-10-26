@@ -1,6 +1,6 @@
 {
   "name": "Kimetsu to Oumu",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "manifest_version": 2,
   "description": "Webページ内の“鬼滅の刃”を“オウム真理教”に置き換えます。",
   "content_scripts": [
