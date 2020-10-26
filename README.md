@@ -25,3 +25,7 @@
 ### Wikipedia
 
 ![](screenshots/wikipedia.png)
+
+### Twitter検索
+
+![](screenshots/twitter.png)
