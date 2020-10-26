@@ -41,11 +41,16 @@ const checkIsNodeInsideContenteditable = (node) => {
   return checkTreeElementsUpward(checkIsElementContenteditable, node)
 }
 
-const replaceAll = () => {
-  // For title
-  replacementsForText.forEach(([oldText, newText]) => {
-    document.title = document.title.replace(oldText, newText)
+const replace = (target, replacements) => {
+  replacements.forEach(([oldText, newText]) => {
+    target = target.replace(oldText, newText)
   })
+  return target
+}
+
+const convertKimetsuToOumu = (muts) => {
+  // For title
+  document.title = replace(document.title, replacementsForText)
 
   // For document body
   const walker = document.createTreeWalker(
@@ -61,12 +66,10 @@ const replaceAll = () => {
 
       if (!checkIsNodeInsideContenteditable(walker.currentNode)) {
         if (walker.currentNode.nodeValue.trim()) {
-          replacementsForText.forEach(([oldText, newText]) => {
-            walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(
-              oldText,
-              newText
-            )
-          })
+          walker.currentNode.nodeValue = replace(
+            walker.currentNode.nodeValue,
+            replacementsForText
+          )
         }
       }
     } else {
@@ -87,15 +90,12 @@ const replaceAll = () => {
   }
 }
 
-const convertKimetsuToOumu = (muts) => {
-  replaceAll()
-}
-
 convertKimetsuToOumu()
 
 // support dynamic webpages
 const observer = new MutationObserver(convertKimetsuToOumu)
 observer.observe(document.body, {
   childList: true,
-  subtree: true
+  subtree: true,
+  characterData: true
 })
