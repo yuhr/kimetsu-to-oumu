@@ -1,0 +1,7 @@
+.*
+!.git*
+!.*rc
+!.vscode
+
+node_modules
+web-ext-artifacts

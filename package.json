@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "kimetsu-to-oumu",
+  "version": "1.0.0",
+  "author": "Yu Shimura <mail@yuhr.org>",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "web-ext": "^5.3.0"
+  },
+  "scripts": {
+    "start:firefox": "web-ext run --target firefox-desktop",
+    "start:chrome": "web-ext run --target chromium",
+    "lint": "web-ext lint",
+    "build": "web-ext build"
+  }
+}
