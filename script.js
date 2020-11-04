@@ -6,14 +6,32 @@ const replacementsForText = [
   [/(?<=(?:おにめつ|きめつ|鬼滅))のやいば/g, "しんりきょう"],
   [/おにめつ|きめつ/g, "おうむ"],
   [/無限列車/g, "最終解脱"],
-  [/(?<=(?:竈門|かまど))炭[治次二]郎/g, "彰晃"],
-  [/(?<=(?:竈門|かまど))たんじろう?/g, "しょうこう"],
-  [/(?<!(?:竈門|かまど))炭[治次二]郎/g, "尊師"],
-  [/(?<!(?:竈門|かまど))たんじろう?/g, "そんし"],
+  [/(?<=(?:竈門|かまど)\s*)炭[治次二]郎/g, "彰晃"],
+  [/(?<=(?:竈門|かまど)\s*)たんじろ[うおー〜]*/g, "しょうこう"],
+  [/(?<!(?:竈門|かまど)\s*)炭[治次二]郎/g, "尊師"],
+  [/(?<!(?:竈門|かまど)\s*)たんじろ[うおー〜]*/g, "そんし"],
   [/竈門/g, "麻原"],
   [/かまど/g, "あさはら"],
-  [/kimetsu/g, "oumu"],
-  [/KIMETSU/g, "OUMU"]
+  [/の呼吸/g, "のイニシエーション"],
+  [/Demon Slayer/g, "Aleph"],
+  [/demon slayer/g, "aleph"],
+  [/DEMON SLAYER/g, "ALEPH"],
+  [/Kimetsu no Yaiba/g, "Aum Shinrikyo"],
+  [/Kimetsu/g, "Aum"],
+  [/kimetsu no yaiba/g, "aum shinrikyo"],
+  [/kimetsu/g, "aum"],
+  [/KIMETSU NO YAIBA/g, "AUM SHINRIKYO"],
+  [/KIMETSU/g, "AUM"],
+  [/Blade of Demon Destruction/g, "AUM, the Supreme Truth"],
+  [/Tanjiro(?= [Kk][Aa][Mm][Aa][Dd][Oo])/g, "Shoko"],
+  [/Tanjiro(?! [Kk][Aa][Mm][Aa][Dd][Oo])/g, "Sonshi"],
+  [/Kamado/g, "Asahara"],
+  [/tanjiro(?= [Kk][Aa][Mm][Aa][Dd][Oo])/g, "shoko"],
+  [/tanjiro(?! [Kk][Aa][Mm][Aa][Dd][Oo])/g, "sonshi"],
+  [/kamado/g, "asahara"],
+  [/TANJIRO(?= [Kk][Aa][Mm][Aa][Dd][Oo])/g, "SHOKO"],
+  [/TANJIRO(?! [Kk][Aa][Mm][Aa][Dd][Oo])/g, "SONSHI"],
+  [/KAMADO/g, "ASAHARA"]
 ]
 
 const checkIsNodeInsideContenteditable = (node) => {
@@ -74,12 +92,21 @@ const convertKimetsuToOumu = (muts) => {
       // Tag specific replacements
       switch (walker.currentNode.tagName) {
         case "IMG":
-          if (walker.currentNode.alt === "Kimetsu no Yaiba logo.svg") {
+          if (
+            walker.currentNode.alt === "Kimetsu no Yaiba logo.svg" ||
+            walker.currentNode.alt ===
+              "Demon Slayer - Kimetsu no Yaiba, volume 1.jpg"
+          ) {
             walker.currentNode.src =
               "//upload.wikimedia.org/wikipedia/ja/b/be/Aum_symbol.gif"
             walker.currentNode.removeAttribute("srcset")
             walker.currentNode.width = "140"
             walker.currentNode.height = "140"
+          }
+          break
+        case "I":
+          if (walker.currentNode.title === "Hepburn transliteration") {
+            walker.currentNode.textContent = "Ōmu Shinrikyō"
           }
           break
       }
