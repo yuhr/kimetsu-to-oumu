@@ -13,10 +13,13 @@ const replacementsForText = [
   [/竈門/g, "麻原"],
   [/かまど/g, "あさはら"],
   [/の呼吸/g, "のイニシエーション"],
+  [/のこきゅう/g, "のいにしえーしょん"],
+  [/呼吸法/g, "イニシエーション法"],
+  [/こきゅうほう/g, "いにしえーしょんほう"],
   [/Demon Slayer/g, "Aleph"],
   [/demon slayer/g, "aleph"],
   [/DEMON SLAYER/g, "ALEPH"],
-  [/Kimetsu no Yaiba/g, "Aum Shinrikyo"],
+  [/Kimetsu [Nn]o Yaiba/g, "Aum Shinrikyo"],
   [/Kimetsu/g, "Aum"],
   [/kimetsu no yaiba/g, "aum shinrikyo"],
   [/kimetsu/g, "aum"],
@@ -31,7 +34,13 @@ const replacementsForText = [
   [/kamado/g, "asahara"],
   [/TANJIRO(?= [Kk][Aa][Mm][Aa][Dd][Oo])/g, "SHOKO"],
   [/TANJIRO(?! [Kk][Aa][Mm][Aa][Dd][Oo])/g, "SONSHI"],
-  [/KAMADO/g, "ASAHARA"]
+  [/KAMADO/g, "ASAHARA"],
+  [/Mugen Train/g, "Last Gedatsu"],
+  [/mugen train/g, "last gedatsu"],
+  [/MUGEN TRAIN/g, "LAST GEDATSU"],
+  [/Infinity Train/g, "Last Moksha"],
+  [/infinity train/g, "last moksha"],
+  [/INFINITY TRAIN/g, "LAST MOKSHA"]
 ]
 
 const checkIsNodeInsideContenteditable = (node) => {
@@ -106,7 +115,14 @@ const convertKimetsuToOumu = (muts) => {
           break
         case "I":
           if (walker.currentNode.title === "Hepburn transliteration") {
-            walker.currentNode.textContent = "Ōmu Shinrikyō"
+            walker.currentNode.textContent = walker.currentNode.textContent.replace(
+              /Kimetsu no Yaiba/g,
+              "Ōmu Shinrikyō"
+            )
+            walker.currentNode.textContent = walker.currentNode.textContent.replace(
+              /Mugen Ressha-hen/g,
+              "Saishū Gedatsu-hen"
+            )
           }
           break
       }
